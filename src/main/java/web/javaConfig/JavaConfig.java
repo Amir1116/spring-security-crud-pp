@@ -108,10 +108,5 @@ public class JavaConfig implements WebMvcConfigurer {
         jpaTransactionManager.setEntityManagerFactory(getEntityManagerFactory().getObject());
         return jpaTransactionManager;
     }
-
-    @Bean
-    public EntityManager getEntityManager(){
-        return Objects.requireNonNull(getTransactionManager().getEntityManagerFactory()).createEntityManager();
-    }
 }
 

@@ -31,10 +31,11 @@
                         </a>
                     </td>
                     <td>
-                        <a th:href="@{'/'+${user.getId()}+'/delete'}" style="text-decoration: none; text-align:center" >
-                            Delete
-                        </a>
-                    </td> <td>
+                        <form th:method="DELETE"  th:action="@{'/'+${user.getId()}+'/delete'}">
+                            <button type="submit">delete</button>
+                        </form>
+                    </td>
+                    <td>
                         <a th:href="@{'/'+${user.getId()}+'/show'}" style="text-decoration: none; text-align:center" >
                             Show
                         </a>
