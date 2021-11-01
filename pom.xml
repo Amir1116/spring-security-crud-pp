@@ -20,11 +20,19 @@
 
   <dependencies>
 
-<!--    <dependency>-->
-<!--      <groupId>org.apache.maven.plugins</groupId>-->
-<!--      <artifactId>maven-war-plugin</artifactId>-->
-<!--      <version>3.3.2</version>-->
-<!--    </dependency>-->
+
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-entitymanager</artifactId>
+      <version>5.6.1.Final</version>
+    </dependency>
+
+
+    <dependency>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-war-plugin</artifactId>
+      <version>3.3.2</version>
+    </dependency>
 
     <dependency>
       <groupId>junit</groupId>
@@ -120,6 +128,7 @@
           <artifactId>maven-war-plugin</artifactId>
           <version>3.2.2</version>
           <configuration>
+
             <failOnMissingWebXml>false</failOnMissingWebXml>
           </configuration>
         </plugin>

@@ -1,5 +1,7 @@
 package web.model;
+import javax.annotation.PropertyKey;
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "users_crud")
@@ -7,7 +9,8 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "id")
+    private int id;
 
     @Column(name = "name")
     private String firstName;
@@ -26,19 +29,19 @@ public class User {
         this.email = email;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public String getFirstName() {
+    public String getName() {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
+    public void setName(String firstName) {
         this.firstName = firstName;
     }
 
@@ -56,6 +59,23 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        User user = (User) o;
+        return id == user.id && firstName.equals(user.firstName) && lastName.equals(user.lastName) && email.equals(user.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(firstName, lastName, email);
     }
 
     @Override
