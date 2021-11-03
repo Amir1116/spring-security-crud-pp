@@ -14,23 +14,21 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
-import javax.persistence.EntityManager;
 import javax.sql.DataSource;
 import java.beans.PropertyVetoException;
-import java.util.Objects;
 import java.util.Properties;
 
 @Configuration
 @EnableWebMvc
 @EnableTransactionManagement
 @PropertySource("classpath:db.properties")
-
 @ComponentScan("web")
 public class JavaConfig implements WebMvcConfigurer {
     @Autowired
@@ -41,7 +39,6 @@ public class JavaConfig implements WebMvcConfigurer {
     public JavaConfig(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
     }
-
 
     @Bean
     public SpringResourceTemplateResolver templateResolver() {
@@ -108,5 +105,6 @@ public class JavaConfig implements WebMvcConfigurer {
         jpaTransactionManager.setEntityManagerFactory(getEntityManagerFactory().getObject());
         return jpaTransactionManager;
     }
+
 }
 

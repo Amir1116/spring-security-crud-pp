@@ -17,10 +17,15 @@ public class UserController {
     private UserService userService;
 
     @GetMapping()
+    public String mainPage(){
+        return "index";
+    }
+
+    @GetMapping("/admin/allusers")
     public String printUsers(ModelMap model) {
         List<User> users = userService.listUsers();
         model.addAttribute("users", users);
-        return "index";
+        return "allusers";
     }
 
     @GetMapping("/{id}/edit")

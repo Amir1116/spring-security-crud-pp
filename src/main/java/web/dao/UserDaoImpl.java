@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.util.List;
 
 @Repository
@@ -51,6 +52,14 @@ public class UserDaoImpl implements UserDao {
         oldUser.setLastName(user.getLastName());
         oldUser.setEmail(user.getEmail());
         entityManager.merge(oldUser);
+    }
+
+    @Override
+    public User getUser(String name) {
+        String username = name;
+        Query query = entityManager.createQuery("FROM User u where u.username = :username",User.class);
+        User user = (User) query.setParameter("username", name).getSingleResult();
+        return user;
     }
 }
 
