@@ -5,9 +5,10 @@ import org.springframework.security.core.GrantedAuthority;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
-@Table(name = "role")
+@Table(name = "roles")
 public class Role implements GrantedAuthority {
 
     @Id
@@ -17,10 +18,27 @@ public class Role implements GrantedAuthority {
     @Column(name="role")
     private String role;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Role role1 = (Role) o;
+        return role.equals(role1.role);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(role);
+    }
+
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
-            joinColumns = @JoinColumn(name = "role"),
-            inverseJoinColumns = @JoinColumn(name = "user_crud_id")
+            joinColumns = @JoinColumn(name = "role_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
     )
     private List<User> usersList;
 

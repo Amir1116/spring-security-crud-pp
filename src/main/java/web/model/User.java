@@ -9,12 +9,12 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "users_crud")
+@Table(name = "users")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", unique = true, nullable = false)
     private int id;
 
     @Column(name = "email")
@@ -26,19 +26,23 @@ public class User {
     @Column(name = "username")
     private String username;
 
-    @Column(name = "name")
+    @Column(name = "firstname")
     private String name;
 
-    @Column(name = "last_name")
+    @Column(name = "lastname")
     private String lastName;
 
     @Column(name = "enabled")
     private int enabled;
 
-    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {
+                                         CascadeType.MERGE,
+                                         CascadeType.MERGE,
+                                         CascadeType.DETACH,
+                                         CascadeType.REFRESH})
     @JoinTable(name = "user_role",
-            joinColumns = @JoinColumn(name = "user_crud_id"),
-            inverseJoinColumns = @JoinColumn(name = "role")
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private List<Role> roleList;
 
@@ -58,6 +62,10 @@ public class User {
             roleList = new ArrayList<>();
         }
         roleList.add(role);
+    }
+
+    public boolean isAdmin(){
+        return roleList.contains(new Role("ADMIN"));
     }
 
     //==============================================Setters
@@ -87,6 +95,10 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public void setEnabled(int enabled) {
+        this.enabled = enabled;
     }
 
     //=======================================Getters

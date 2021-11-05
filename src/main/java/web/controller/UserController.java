@@ -7,64 +7,27 @@ import org.springframework.ui.ModelMap;
 import web.model.User;
 import web.services.UserService;
 
-import java.util.List;
-
 @Controller
-//@RequestMapping("/users")
+@RequestMapping("/user/")
 public class UserController {
 
-    @Autowired
     private UserService userService;
 
-    @GetMapping()
-    public String mainPage(){
-        return "index";
+    @Autowired
+    public UserController(UserService userService){
+        this.userService = userService;
     }
 
-    @GetMapping("/admin/allusers")
-    public String printUsers(ModelMap model) {
-        List<User> users = userService.listUsers();
-        model.addAttribute("users", users);
-        return "allusers";
-    }
-
-    @GetMapping("/{id}/edit")
-    public String editUser(@PathVariable("id")int id,ModelMap model){
-        User user = userService.getUser(id);
+    @GetMapping("/{username}")
+    public String userPrivate(@PathVariable("username") String username, ModelMap model){
+        User user = userService.getUser(username);
         model.addAttribute("user", user);
-        return "edit";
+        return "userprivate";
     }
 
-    @PatchMapping("/user/{id}")
-    public String update(@ModelAttribute("user") User user,@PathVariable("id") int id){
-        System.out.println(user);
-        userService.updateUser(id,user);
-        return "redirect:/";
-    }
-
-    @DeleteMapping("/{id}/delete")
-    public String deleteUser(@PathVariable("id") int id){
-        userService.deleteUser(id);
-        return "redirect:/";
-    }
-
-    @GetMapping("/{id}/show")
-    public String showUser(@PathVariable("id") int id,ModelMap model){
-        model.addAttribute("user", userService.getUser(id));
-        return "show";
-    }
-
-    @GetMapping("/new")
-    public String newUserPage(ModelMap model){
-        User user = new User();
-        model.addAttribute("user",user);
-        return "new";
-    }
-
-    @PostMapping("/new/user")
-    public String newUser(@ModelAttribute("user") User user){
-        userService.save(user);
-        return "redirect:/";
+    @GetMapping("/content")
+    public String userShow(){
+        return "usercontent";
     }
 
 }
