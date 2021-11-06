@@ -35,7 +35,7 @@
                     Edit Profile
                 </h2>
 
-            <form th:method="patch" th:action="@{/admin/user/{id}(id=${user.getId()})}" style="display:flex; flex-direction: column; align-content:
+            <form th:method="patch" th:action="@{/user/{id}(id=${user.getId()})}" style="display:flex; flex-direction: column; align-content:
     center;justify-content: space-between">
                 <label for="username" style="margin-bottom: 1rem">Username</label>
                 <input type="text" th:value="${user.getUsername()}" id="username" name="username" style="margin-bottom: 1rem;
@@ -45,6 +45,13 @@
 
                 <label for="email" style="margin-bottom: 1rem">Email</label>
                 <input type="text" th:value="${user.getEmail()}" id="email" name="email" style="margin-bottom: 1rem;
+                                                                                        padding: .5rem 1rem;
+                                                                                        border-radius: .3rem;
+                                                                                        border:none">
+
+                <label for="password" style="margin-bottom: 1rem">Password</label>
+                <input type="password" id="password" name="password" style="margin-bottom:
+                1rem;
                                                                                         padding: .5rem 1rem;
                                                                                         border-radius: .3rem;
                                                                                         border:none">
@@ -60,7 +67,6 @@
                                                                                                  padding: .5rem 1rem;
                                                                                                  border-radius: .3rem;
                                                                                                  border:none">
-
 
                 <button type="submit"
                         style="padding: .5rem 1rem;
