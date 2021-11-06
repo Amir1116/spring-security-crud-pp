@@ -1,6 +1,8 @@
 package web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +12,7 @@ import web.services.RoleService;
 import web.services.UserService;
 
 import javax.enterprise.inject.Model;
+import java.net.Authenticator;
 
 @Controller
 public class CommonController {
@@ -39,7 +42,7 @@ public class CommonController {
         return "login";
     }
 
-    @PostMapping("/register/user/")
+    @PostMapping("/register/user")
     public String newUser(@ModelAttribute("user") User user){
         Role role = roleService.getRole("USER");
         role.addUserToRolen(user);
@@ -54,20 +57,16 @@ public class CommonController {
         return "redirect:/";
     }
 
-    @GetMapping("/{id}/edit")
-    public String editUser(@PathVariable("id")int id, ModelMap model){
-        User user = userService.getUser(id);
-        model.addAttribute("user", user);
-        return "edit";
-    }
-
-    @PatchMapping("/user/{id}")
-    public String update(@ModelAttribute("user") User user, @PathVariable("id") int id){
-        User userOut = userService.getUser(id);
-        userOut.setEmail(user.getEmail());
-        userOut.setName(user.getName());
-        userOut.setLastName(user.getLastName());
-        userService.updateUser(user);
-        return "redirect:/";
+    @GetMapping("/private/page")
+    public String privatePageLink(Authentication authentication,ModelMap model){
+        User user = userService.getUser(authentication.getName());
+        System.out.println("User id admin"+ user.isAdmin());
+        System.out.println(authentication.getName());
+        model.addAttribute("user",user);
+        if(user.isAdmin()){
+            return "adminprivate";
+        }else{
+            return "userprivate";
+        }
     }
 }

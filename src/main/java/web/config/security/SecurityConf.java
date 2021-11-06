@@ -47,7 +47,7 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
     public DaoAuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setUserDetailsService(uUserDetailsService());
-//        daoAuthenticationProvider.setPasswordEncoder();
+        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
         return daoAuthenticationProvider;
     }
 
