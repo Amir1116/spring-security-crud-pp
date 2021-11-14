@@ -1,4 +1,4 @@
-package web.javaConfig;
+package web.config;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +20,8 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
-import javax.persistence.EntityManager;
 import javax.sql.DataSource;
 import java.beans.PropertyVetoException;
-import java.util.Objects;
 import java.util.Properties;
 
 @Configuration
@@ -32,13 +30,14 @@ import java.util.Properties;
 @PropertySource("classpath:db.properties")
 
 @ComponentScan("web")
-public class JavaConfig implements WebMvcConfigurer {
+public class Config
+        implements WebMvcConfigurer {
     @Autowired
     private Environment env;
 
     private final ApplicationContext applicationContext;
 
-    public JavaConfig(ApplicationContext applicationContext) {
+    public Config(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
     }
 

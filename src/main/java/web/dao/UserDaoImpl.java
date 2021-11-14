@@ -5,52 +5,47 @@ import web.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
-public class UserDaoImpl implements UserDao {
+public class UserDaoImpl
+        implements UserDao {
 
     @PersistenceContext
     private EntityManager entityManager;
 
     @Autowired
-    public UserDaoImpl(EntityManagerFactory entityManagerFactory){
-        this.entityManager = entityManagerFactory.createEntityManager();
+    public UserDaoImpl(EntityManager entityManager) {
+        this.entityManager = entityManager;
     }
 
     @Override
-    @Transactional
     public void save(User user) {
-            entityManager.persist(user);
+        entityManager.persist(user);
     }
 
     @Override
     public List<User> listUsers() {
-       return entityManager.createQuery("from User", User.class).getResultList();
+        return entityManager.createQuery("from User", User.class).getResultList();
     }
 
     @Override
-    @Transactional
     public void deleteUser(int id) {
         entityManager.remove(getUser(id));
     }
 
     @Override
     public User getUser(int id) {
-        return entityManager.find(User.class,id);
+        return entityManager.find(User.class, id);
     }
 
     @Override
-    @Transactional
-    public void updateUser(int id, User user) {
-        User oldUser = getUser(id);
-        oldUser.setName(user.getName());
-        oldUser.setLastName(user.getLastName());
-        oldUser.setEmail(user.getEmail());
-        entityManager.merge(oldUser);
+    public void updateUser(User user) {
+        entityManager.merge(user);
     }
 }
 

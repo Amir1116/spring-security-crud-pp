@@ -10,7 +10,7 @@
     <h2 style="text-align: center">New User</h2>
 
     <form th:method="POST" th:action="@{/new/user}" style="display:flex; flex-direction: column; align-content:
-    center;justify-content: space-between" >
+    center;justify-content: space-between">
 
         <label for="name">Firstname</label>
         <input type="text" th:value="${user.getName()}" id="name" name="name">

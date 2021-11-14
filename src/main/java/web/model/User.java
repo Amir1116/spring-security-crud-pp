@@ -1,4 +1,5 @@
 package web.model;
+
 import javax.annotation.PropertyKey;
 import javax.persistence.*;
 import java.util.Objects;
@@ -21,7 +22,8 @@ public class User {
     @Column(name = "email")
     private String email;
 
-    public User() {}
+    public User() {
+    }
 
     public User(String firstName, String lastName, String email) {
         this.firstName = firstName;

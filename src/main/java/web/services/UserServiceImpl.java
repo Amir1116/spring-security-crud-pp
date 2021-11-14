@@ -6,19 +6,22 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 import web.dao.UserDao;
 import web.model.User;
+
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl
+        implements UserService {
 
     private UserDao userDao;
 
     @Autowired
-    public UserServiceImpl(UserDao userDao){
+    public UserServiceImpl(UserDao userDao) {
         this.userDao = userDao;
     }
 
     @Override
+    @Transactional
     public void save(User user) {
         userDao.save(user);
     }
@@ -29,6 +32,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    @Transactional
     public void deleteUser(int id) {
         userDao.deleteUser(id);
     }
@@ -39,7 +43,8 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void updateUser(int id, User user) {
-        userDao.updateUser(id, user);
+    @Transactional
+    public void updateUser(User user) {
+        userDao.updateUser(user);
     }
 }

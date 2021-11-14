@@ -10,54 +10,63 @@ import web.services.UserService;
 import java.util.List;
 
 @Controller
-//@RequestMapping("/users")
 public class UserController {
 
+
+    private final UserService userService;
+
     @Autowired
-    private UserService userService;
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping()
     public String printUsers(ModelMap model) {
-        List<User> users = userService.listUsers();
+
+        List<User> users = this.userService.listUsers();
         model.addAttribute("users", users);
         return "index";
+
     }
 
     @GetMapping("/{id}/edit")
-    public String editUser(@PathVariable("id")int id,ModelMap model){
-        User user = userService.getUser(id);
+    public String editUser(@PathVariable("id") int id, ModelMap model) {
+        User user = this.userService.getUser(id);
         model.addAttribute("user", user);
         return "edit";
     }
 
     @PatchMapping("/user/{id}")
-    public String update(@ModelAttribute("user") User user,@PathVariable("id") int id){
-        System.out.println(user);
-        userService.updateUser(id,user);
+    public String update(@ModelAttribute("user") User user, @PathVariable("id") int id) {
+        User oldUser = this.userService.getUser(id);
+        oldUser.setName(user.getName());
+        oldUser.setLastName(user.getLastName());
+        oldUser.setEmail(user.getEmail());
+        this.userService.updateUser(oldUser);
         return "redirect:/";
     }
 
     @DeleteMapping("/{id}/delete")
-    public String deleteUser(@PathVariable("id") int id){
+    public String deleteUser(@PathVariable("id") int id) {
         userService.deleteUser(id);
         return "redirect:/";
     }
 
     @GetMapping("/{id}/show")
-    public String showUser(@PathVariable("id") int id,ModelMap model){
+    public String showUser(@PathVariable("id") int id, ModelMap model) {
         model.addAttribute("user", userService.getUser(id));
         return "show";
     }
 
     @GetMapping("/new")
-    public String newUserPage(ModelMap model){
+    public String newUserPage(ModelMap model) {
         User user = new User();
-        model.addAttribute("user",user);
+        model.addAttribute("user", user);
         return "new";
     }
 
     @PostMapping("/new/user")
-    public String newUser(@ModelAttribute("user") User user){
+    public String newUser(@ModelAttribute("user") User user) {
         userService.save(user);
         return "redirect:/";
     }
