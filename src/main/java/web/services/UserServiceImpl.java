@@ -5,15 +5,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import web.dao.UserDao;
 import web.model.User;
+
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl
+        implements UserService {
 
-    private UserDao userDao;
+    private final UserDao userDao;
 
     @Autowired
-    public UserServiceImpl(UserDao userDao){
+    public UserServiceImpl(UserDao userDao) {
         this.userDao = userDao;
     }
 
@@ -41,7 +43,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     @Transactional
-    public void updateUser( User user) {
+    public void updateUser(User user) {
         userDao.updateUser(user);
     }
 

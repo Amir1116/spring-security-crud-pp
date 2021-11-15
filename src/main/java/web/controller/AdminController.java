@@ -15,11 +15,11 @@ import java.util.List;
 @RequestMapping("/admin/")
 public class AdminController {
 
-    private UserService userService;
-    private RoleService roleService;
+    private final UserService userService;
+    private final RoleService roleService;
 
     @Autowired
-    public AdminController(UserService userService, RoleService roleService){
+    public AdminController(UserService userService, RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
     }
@@ -32,20 +32,20 @@ public class AdminController {
     }
 
     @GetMapping("/{username}")
-    public String userPrivate(@PathVariable("username") String username, ModelMap model){
+    public String userPrivate(@PathVariable("username") String username, ModelMap model) {
         User user = userService.getUser(username);
         model.addAttribute("user", user);
         return "adminprivate";
     }
 
     @GetMapping("/content")
-    public String adminContent(){
+    public String adminContent() {
         return "admincontent";
     }
 
 
     @GetMapping("/{id}/edit")
-    public String editUser(@PathVariable("id")int id, ModelMap model){
+    public String editUser(@PathVariable("id") int id, ModelMap model) {
         User user = userService.getUser(id);
         String role = null;
         model.addAttribute("user", user);
@@ -54,16 +54,16 @@ public class AdminController {
     }
 
     @PatchMapping("/{id}")
-    public String update(@ModelAttribute("user") User user,@ModelAttribute("role") String role,
-                         @PathVariable("id") int id){
+    public String update(@ModelAttribute("user") User user, @ModelAttribute("role") String role,
+                         @PathVariable("id") int id) {
         User userOut = userService.getUser(id);
         userOut.setUsername(user.getUsername());
         userOut.setEmail(user.getEmail());
         userOut.setName(user.getName());
         userOut.setLastName(user.getLastName());
         userOut.setPassword(user.getPassword());
-        System.out.println("RoOOOOLE = "+role);
-        if(!role.equals("on")){
+        System.out.println("RoOOOOLE = " + role);
+        if (role.equals("on")) {
             Role admin = roleService.getRole("ADMIN");
             userOut.addRole(admin);
         }
@@ -72,13 +72,13 @@ public class AdminController {
     }
 
     @DeleteMapping("/{id}/delete")
-    public String deleteUser(@PathVariable("id")int id){
+    public String deleteUser(@PathVariable("id") int id) {
         userService.deleteUser(id);
         return "redirect:/admin/allusers";
     }
 
     @GetMapping("/create")
-    public String createPage(ModelMap model){
+    public String createPage(ModelMap model) {
         User user = new User();
         model.addAttribute(user);
         String admin = null;
@@ -87,17 +87,17 @@ public class AdminController {
     }
 
     @PostMapping("/new")
-    public String newUserAdmin(@ModelAttribute("user") User user, @ModelAttribute("role") Role admin){
-            Role role = roleService.getRole("USER");
-            role.addUserToRolen(user);
-            user.addRole(role);
-            user.setEnabled(1);
-            if(admin != null){
-                Role adminin = roleService.getRole("ADMIN");
-                user.addRole(adminin);
-            }
-            userService.save(user);
-            return "redirect:/admin/allusers";
+    public String newUserAdmin(@ModelAttribute("user") User user, @ModelAttribute("role") Role admin) {
+        Role role = roleService.getRole("USER");
+        role.addUserToRolen(user);
+        user.addRole(role);
+        user.setEnabled(1);
+        if (admin != null) {
+            Role adminin = roleService.getRole("ADMIN");
+            user.addRole(adminin);
+        }
+        userService.save(user);
+        return "redirect:/admin/allusers";
     }
 
 }

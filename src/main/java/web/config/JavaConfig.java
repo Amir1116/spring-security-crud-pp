@@ -29,14 +29,17 @@ import java.util.Properties;
 @EnableTransactionManagement
 @PropertySource("classpath:db.properties")
 @ComponentScan("web")
-public class JavaConfig implements WebMvcConfigurer {
-    @Autowired
+public class JavaConfig
+        implements WebMvcConfigurer {
+
     private Environment env;
 
     private final ApplicationContext applicationContext;
 
-    public JavaConfig(ApplicationContext applicationContext) {
+    @Autowired
+    public JavaConfig(ApplicationContext applicationContext, Environment env) {
         this.applicationContext = applicationContext;
+        this.env = env;
     }
 
     @Bean
@@ -68,20 +71,20 @@ public class JavaConfig implements WebMvcConfigurer {
     @Bean
     public DataSource getDataSource() {
         ComboPooledDataSource poolData = null;
-        try{
-            poolData= new ComboPooledDataSource();
+        try {
+            poolData = new ComboPooledDataSource();
             poolData.setDriverClass(env.getProperty("db.driver"));
             poolData.setJdbcUrl(env.getProperty("db.url"));
             poolData.setUser(env.getProperty("db.username"));
             poolData.setPassword(env.getProperty("db.password"));
-        }catch (PropertyVetoException e){
+        } catch (PropertyVetoException e) {
             e.printStackTrace();
         }
         return poolData;
     }
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean getEntityManagerFactory(){
+    public LocalContainerEntityManagerFactoryBean getEntityManagerFactory() {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(getDataSource());
         em.setPackagesToScan("web.model");
@@ -92,14 +95,14 @@ public class JavaConfig implements WebMvcConfigurer {
     }
 
     private Properties getHibernatePropities() {
-        Properties props=new Properties();
+        Properties props = new Properties();
         props.put("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
         props.put("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
         return props;
     }
 
     @Bean
-    public JpaTransactionManager getTransactionManager(){
+    public JpaTransactionManager getTransactionManager() {
         JpaTransactionManager jpaTransactionManager = new JpaTransactionManager();
         jpaTransactionManager.setEntityManagerFactory(getEntityManagerFactory().getObject());
         return jpaTransactionManager;

@@ -16,34 +16,34 @@ import java.net.Authenticator;
 
 @Controller
 public class CommonController {
-    private UserService userService;
-    private RoleService roleService;
+    private final UserService userService;
+    private final RoleService roleService;
 
     @Autowired
-    public CommonController(UserService userService, RoleService roleService){
+    public CommonController(UserService userService, RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
     }
 
     @RequestMapping()
-    public String mainPage(){
+    public String mainPage() {
         return "index";
     }
 
     @GetMapping("/register")
-    public String newUserPage(ModelMap model){
+    public String newUserPage(ModelMap model) {
         User user = new User();
-        model.addAttribute("user",user);
+        model.addAttribute("user", user);
         return "register";
     }
 
     @GetMapping("/login")
-    public String loginPage(){
+    public String loginPage() {
         return "login";
     }
 
     @PostMapping("/register/user")
-    public String newUser(@ModelAttribute("user") User user){
+    public String newUser(@ModelAttribute("user") User user) {
         Role role = roleService.getRole("USER");
         role.addUserToRolen(user);
         user.addRole(role);
@@ -53,19 +53,19 @@ public class CommonController {
     }
 
     @RequestMapping("/logout")
-    public String perfomLogout(){
+    public String perfomLogout() {
         return "redirect:/";
     }
 
     @GetMapping("/private/page")
-    public String privatePageLink(Authentication authentication,ModelMap model){
+    public String privatePageLink(Authentication authentication, ModelMap model) {
         User user = userService.getUser(authentication.getName());
-        System.out.println("User id admin"+ user.isAdmin());
+        System.out.println("User id admin" + user.isAdmin());
         System.out.println(authentication.getName());
-        model.addAttribute("user",user);
-        if(user.isAdmin()){
+        model.addAttribute("user", user);
+        if (user.isAdmin()) {
             return "adminprivate";
-        }else{
+        } else {
             return "userprivate";
         }
     }

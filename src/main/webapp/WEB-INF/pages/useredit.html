@@ -16,8 +16,8 @@
             width: 100%;
     ">
     <div th:insert="/fragments/header::header(main = 'Edit Page')"></div>
-        <div>
-            <div style="margin: 5rem auto;
+    <div>
+        <div style="margin: 5rem auto;
             display: flex;
             align-content: center;
             justify-content: center;
@@ -29,11 +29,11 @@
             border-radius: .5rem;
             color: #EED6C4;
     ">
-                <h2 style="text-align: center;
+            <h2 style="text-align: center;
                margin-bottom: 2rem;
          ">
-                    Edit Profile
-                </h2>
+                Edit Profile
+            </h2>
 
             <form th:method="patch" th:action="@{/user/{id}(id=${user.getId()})}" style="display:flex; flex-direction: column; align-content:
     center;justify-content: space-between">
@@ -79,9 +79,9 @@
                 </button>
 
             </form>
-            </div>
         </div>
-            <div th:replace="/fragments/footer::footer"></div>
     </div>
+    <div th:replace="/fragments/footer::footer"></div>
+</div>
 </body>
 </html>

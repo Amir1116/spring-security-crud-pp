@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<html lang="en" >
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Register Page</title>
@@ -26,7 +26,7 @@
     </h2>
 
     <form th:method="POST" th:action="@{/register/user}" style="display:flex; flex-direction: column; align-content:
-    center;justify-content: space-between" >
+    center;justify-content: space-between">
 
         <label for="username" style="margin-bottom: 1rem">Username</label>
         <input type="text" th:value="${user.getUsername()}" id="username" name="username" style="margin-bottom: 1rem;

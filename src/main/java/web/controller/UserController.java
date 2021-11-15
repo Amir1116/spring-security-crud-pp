@@ -11,35 +11,35 @@ import web.services.UserService;
 @RequestMapping("/user/")
 public class UserController {
 
-    private UserService userService;
+    private final UserService userService;
 
     @Autowired
-    public UserController(UserService userService){
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 
     @GetMapping("/{username}")
-    public String userPrivate(@PathVariable("username") String username, ModelMap model){
+    public String userPrivate(@PathVariable("username") String username, ModelMap model) {
         User user = userService.getUser(username);
         model.addAttribute("user", user);
         return "userprivate";
     }
 
     @GetMapping("/content")
-    public String userShow(){
+    public String userShow() {
         return "usercontent";
     }
 
     @GetMapping("/{id}/edit")
-    public String editUser(@PathVariable("id")int id, ModelMap model){
+    public String editUser(@PathVariable("id") int id, ModelMap model) {
         User user = userService.getUser(id);
         model.addAttribute("user", user);
         return "useredit";
     }
 
     @PatchMapping("/{id}")
-    public String update(@ModelAttribute("user") User user,@ModelAttribute("role") String role,
-                         @PathVariable("id") int id,ModelMap model){
+    public String update(@ModelAttribute("user") User user, @ModelAttribute("role") String role,
+                         @PathVariable("id") int id, ModelMap model) {
         User userOut = userService.getUser(id);
         userOut.setUsername(user.getUsername());
         userOut.setEmail(user.getEmail());
@@ -49,10 +49,10 @@ public class UserController {
         userService.updateUser(userOut);
         System.out.println(userOut.getUsername());
         model.addAttribute("user", userOut);
-        if(userOut.isAdmin()){
-            return "redirect:/admin/"+userOut.getUsername();
-        }else{
-            return "redirect:/user/"+userOut.getUsername();
+        if (userOut.isAdmin()) {
+            return "redirect:/admin/" + userOut.getUsername();
+        } else {
+            return "redirect:/user/" + userOut.getUsername();
         }
     }
 

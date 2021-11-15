@@ -1,10 +1,5 @@
 package web.model;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
-import javax.annotation.PropertyKey;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,21 +32,17 @@ public class User {
     @Column(name = "enabled")
     private int enabled;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {
-                                         CascadeType.MERGE,
-                                         CascadeType.MERGE,
-                                         CascadeType.DETACH,
-                                         CascadeType.REFRESH})
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-
     private List<Role> roleList;
 
-    public User() {}
+    public User() {
+    }
 
-    public User( String email, String password, String username, String name, String lastName) {
+    public User(String email, String password, String username, String name, String lastName) {
 
         this.email = email;
         this.password = password;
@@ -60,14 +51,14 @@ public class User {
         this.lastName = lastName;
     }
 
-    public void addRole(Role role){
-        if(roleList == null){
+    public void addRole(Role role) {
+        if (roleList == null) {
             roleList = new ArrayList<>();
         }
         roleList.add(role);
     }
 
-    public boolean isAdmin(){
+    public boolean isAdmin() {
         return roleList.contains(new Role("ADMIN"));
     }
 
@@ -135,7 +126,7 @@ public class User {
     }
 
 
-//============================================= @Override
+    //============================================= @Override
     @Override
     public boolean equals(Object o) {
         if (this == o) {

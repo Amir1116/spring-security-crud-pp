@@ -10,7 +10,8 @@ import javax.persistence.Query;
 import java.util.List;
 
 @Repository
-public class RoleDaoImpl implements RoleDao{
+public class RoleDaoImpl
+        implements RoleDao {
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -43,7 +44,7 @@ public class RoleDaoImpl implements RoleDao{
     @Override
     public Role getRole(String name) {
         String role = name;
-        Query query = entityManager.createQuery("FROM Role r where r.role = :role",Role.class);
+        Query query = entityManager.createQuery("FROM Role r where r.role = :role", Role.class);
         Role out = (Role) query.setParameter("role", name).getSingleResult();
         return out;
     }

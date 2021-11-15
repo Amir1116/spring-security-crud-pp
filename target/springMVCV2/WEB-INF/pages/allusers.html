@@ -27,21 +27,21 @@
                     padding: 3rem 4rem;
                     background-color: #EED6C4;
          ">
-    <table border="1"style="background-color: #FFF3E4">
-        <th:block  ></th:block>
-        <tr>
-            <th>Name</th>
-            <th>Lastname</th>
-            <th>Email</th>
-            <th>Edit</th>
-            <th>Delete</th>
-            <th>Show</th>
-        </tr>
-            <th:block th:each = "user : ${users}">
+        <table border="1" style="background-color: #FFF3E4">
+            <th:block></th:block>
+            <tr>
+                <th>Name</th>
+                <th>Lastname</th>
+                <th>Email</th>
+                <th>Edit</th>
+                <th>Delete</th>
+                <th>Show</th>
+            </tr>
+            <th:block th:each="user : ${users}">
                 <tr>
                     <td th:text="${user.getName()}"></td>
-                    <td th:text = "${user.getLastName()}"></td>
-                    <td th:text = "${user.getEmail()}"></td>
+                    <td th:text="${user.getLastName()}"></td>
+                    <td th:text="${user.getEmail()}"></td>
                     <td style="background-color: #483434">
                         <a th:href="@{'/admin/'+${user.getId()}+'/edit'}" style="
                                                                          text-decoration: none;
@@ -50,9 +50,10 @@
                     ">edit user</a>
                     </td>
                     <td>
-                        <form th:method="DELETE"  th:action="@{'/admin/'+${user.getId()}+'/delete'}">
+                        <form th:method="DELETE" th:action="@{'/admin/'+${user.getId()}+'/delete'}">
                             <button type="submit" style="width: 100%; background-color: #6B4F4F;color: #FFF3E4;
-                            border:2px solid #483434 ">delete</button>
+                            border:2px solid #483434 ">delete
+                            </button>
                         </form>
                     </td>
                     <td style="background-color: #483434">
@@ -65,10 +66,10 @@
                     </td>
                 </tr>
             </th:block>
-    </table>
+        </table>
 
-    <a th:href="@{'/admin/create'}"
-       style="border: 2px solid #483434;
+        <a th:href="@{'/admin/create'}"
+           style="border: 2px solid #483434;
               text-decoration: none;
               margin-top: 3rem;
               color: black;

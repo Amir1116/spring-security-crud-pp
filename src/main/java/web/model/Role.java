@@ -9,37 +9,18 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "roles")
-public class Role implements GrantedAuthority {
+public class Role
+        implements GrantedAuthority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name="role")
+    @Column(name = "role")
     private String role;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Role role1 = (Role) o;
-        return role.equals(role1.role);
-    }
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "roleList")
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(role);
-    }
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_role",
-            joinColumns = @JoinColumn(name = "role_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
     private List<User> usersList;
 
     public Role() {
@@ -50,8 +31,8 @@ public class Role implements GrantedAuthority {
         this.role = role;
     }
 
-    public void  addUserToRolen(User user){
-        if(usersList == null){
+    public void addUserToRolen(User user) {
+        if (usersList == null) {
             usersList = new ArrayList<>();
         }
         usersList.add(user);
@@ -83,5 +64,22 @@ public class Role implements GrantedAuthority {
     @Override
     public String getAuthority() {
         return role;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Role role1 = (Role) o;
+        return role.equals(role1.role);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(role);
     }
 }
