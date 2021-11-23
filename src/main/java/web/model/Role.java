@@ -31,7 +31,7 @@ public class Role
         this.role = role;
     }
 
-    public void addUserToRolen(User user) {
+    public void addUserToRole(User user) {
         if (usersList == null) {
             usersList = new ArrayList<>();
         }

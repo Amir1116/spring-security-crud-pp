@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import web.dao.UserDao;
+import web.model.Role;
 import web.model.User;
 
 import java.util.List;
@@ -12,11 +13,18 @@ import java.util.List;
 public class UserServiceImpl
         implements UserService {
 
-    private final UserDao userDao;
+    private UserDao userDao;
+    private RoleService roleService;
+
+
+    public UserServiceImpl() {
+    }
 
     @Autowired
-    public UserServiceImpl(UserDao userDao) {
+    public UserServiceImpl(UserDao userDao, RoleService roleService) {
         this.userDao = userDao;
+        this.roleService = roleService;
+
     }
 
     @Override
@@ -26,8 +34,8 @@ public class UserServiceImpl
     }
 
     @Override
-    public List<User> listUsers() {
-        return userDao.listUsers();
+    public List<User> getUsersList() {
+        return userDao.getUsersList();
     }
 
     @Override
@@ -43,8 +51,18 @@ public class UserServiceImpl
 
     @Override
     @Transactional
-    public void updateUser(User user) {
-        userDao.updateUser(user);
+    public void updateUser(User user, String role, int id) {
+        User userOut = getUser(id);
+        userOut.setUsername(user.getUsername());
+        userOut.setEmail(user.getEmail());
+        userOut.setName(user.getName());
+        userOut.setLastName(user.getLastName());
+        userOut.setPassword(user.getPassword());
+        if (role.equals("on")) {
+            Role admin = roleService.getRole("ADMIN");
+            userOut.addRole(admin);
+        }
+        userDao.updateUser(userOut);
     }
 
     @Override

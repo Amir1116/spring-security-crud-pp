@@ -18,10 +18,12 @@ import java.util.List;
 public class UserDetailsServiceImpl
         implements UserDetailsService {
 
-
-    private final UserService userService;
-
     @Autowired
+    private UserService userService;
+
+    public UserDetailsServiceImpl() {
+    }
+
     public UserDetailsServiceImpl(UserService userService) {
         this.userService = userService;
     }

@@ -26,7 +26,7 @@ public class AdminController {
 
     @GetMapping("/allusers")
     public String printUsers(ModelMap model) {
-        List<User> users = userService.listUsers();
+        List<User> users = userService.getUsersList();
         model.addAttribute("users", users);
         return "allusers";
     }
@@ -56,18 +56,8 @@ public class AdminController {
     @PatchMapping("/{id}")
     public String update(@ModelAttribute("user") User user, @ModelAttribute("role") String role,
                          @PathVariable("id") int id) {
-        User userOut = userService.getUser(id);
-        userOut.setUsername(user.getUsername());
-        userOut.setEmail(user.getEmail());
-        userOut.setName(user.getName());
-        userOut.setLastName(user.getLastName());
-        userOut.setPassword(user.getPassword());
-        System.out.println("RoOOOOLE = " + role);
-        if (role.equals("on")) {
-            Role admin = roleService.getRole("ADMIN");
-            userOut.addRole(admin);
-        }
-        userService.updateUser(userOut);
+
+        userService.updateUser(user, role, id);
         return "redirect:/admin/allusers";
     }
 
@@ -89,7 +79,7 @@ public class AdminController {
     @PostMapping("/new")
     public String newUserAdmin(@ModelAttribute("user") User user, @ModelAttribute("role") Role admin) {
         Role role = roleService.getRole("USER");
-        role.addUserToRolen(user);
+        role.addUserToRole(user);
         user.addRole(role);
         user.setEnabled(1);
         if (admin != null) {

@@ -18,11 +18,13 @@ import java.net.Authenticator;
 public class CommonController {
     private final UserService userService;
     private final RoleService roleService;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public CommonController(UserService userService, RoleService roleService) {
+    public CommonController(UserService userService, RoleService roleService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.roleService = roleService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @RequestMapping()
@@ -45,7 +47,7 @@ public class CommonController {
     @PostMapping("/register/user")
     public String newUser(@ModelAttribute("user") User user) {
         Role role = roleService.getRole("USER");
-        role.addUserToRolen(user);
+        role.addUserToRole(user);
         user.addRole(role);
         user.setEnabled(1);
         userService.save(user);

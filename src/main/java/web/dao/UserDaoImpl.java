@@ -24,6 +24,7 @@ public class UserDaoImpl
         this.passwordEncoder = passwordEncoder;
     }
 
+
     @Override
     public void save(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -31,7 +32,7 @@ public class UserDaoImpl
     }
 
     @Override
-    public List<User> listUsers() {
+    public List<User> getUsersList() {
         return entityManager.createQuery("from User", User.class).getResultList();
     }
 
@@ -47,9 +48,7 @@ public class UserDaoImpl
 
     @Override
     public void updateUser(User user) {
-
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-
         entityManager.merge(user);
     }
 

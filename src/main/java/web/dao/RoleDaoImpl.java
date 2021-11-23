@@ -2,7 +2,6 @@ package web.dao;
 
 import org.springframework.stereotype.Repository;
 import web.model.Role;
-import web.model.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -22,7 +21,7 @@ public class RoleDaoImpl
     }
 
     @Override
-    public List<Role> listRoles() {
+    public List<Role> getRolesList() {
         return entityManager.createQuery("from Role", Role.class).getResultList();
     }
 
